@@ -1,5 +1,4 @@
 <?php
-    echo '<h1>Hello DB</h1>';
    $host = 'localhost';
    $db = 'itthink';
    $user = 'root'; 
