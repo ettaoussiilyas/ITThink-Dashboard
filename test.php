@@ -1,7 +1,13 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-require('../config/db.php'); 
+require('./config/db.php'); 
+// $connect = mysqli_connect("localhost","root","change06","itthink");
+// if($connect){
+//     echo "Connexion réussie";
+// }else{
+//     echo "Erreur de connexion";
+// }
 
 // Vérifiez si la requête est une requête AJAX
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'get_users') {
