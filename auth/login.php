@@ -3,18 +3,22 @@
     $password = $username = '';
     $errors = array('username'=>'','password'=>'');
     if(isset($_POST['submit'])){
+        $valid = true;
         if(empty($_POST['username'])){
+            $valid = false;
             $errors['username'] = 'Vuiller Entry Nom d\'utilisateur' ;
         }else{
             $username = strtolower(trim($_POST['username']));
         }
         if(empty($_POST['password'])){
+            $valid = false;
             $errors['password'] = 'Vuiller Entry Mot de passe' ;
         }else{
             $password = strtolower(trim($_POST['password']));
         }
   
-        
+        if($valid){
+
             $stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE nom_utilisateur = :username or email = :username and mot_de_passe = :passwords");
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':passwords', $password);
@@ -27,6 +31,8 @@
             } else{
                 $errors['username'] = 'Nom d\'utilisateur ou Mot de passe incorrect' ;
             }
+        }
+
    
 
     }
