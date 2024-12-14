@@ -25,7 +25,7 @@
             $stmt->execute();
             $user = $stmt->fetch();
             if($user){//&& password_verify($password, $user['mot_de_passe'])
-                $_SESSION['id_utilisateur'] = $user['id_utilisateur'];
+                //$_SESSION['id_utilisateur'] = $user['id_utilisateur'];
                 header('Location: session.php');
                 exit();
             } else{

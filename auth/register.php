@@ -8,7 +8,7 @@ if(isset($_POST['submit'])){
     $email = strtolower(trim($_POST['email']));
     $password_simple = strtolower(trim($_POST['password']));
 
-    if(!empty($username) &&!empty($email) &&!empty($password_simple)){
+    if(!empty($username) && !empty($email) && !empty($password_simple)){
        // $password = password_hash($password_simple, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare("INSERT INTO utilisateurs VALUES (null, :username, :password_simple, :email)");
         $stmt->bindParam(':username', $username);
