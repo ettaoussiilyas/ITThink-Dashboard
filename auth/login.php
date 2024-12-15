@@ -19,7 +19,7 @@
   
         if($valid){
 
-            $stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE nom_utilisateur = :username or email = :username and mot_de_passe = :passwords");
+            $stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE nom_utilisateur = :username or email = :username and mot_de_passe = SHA1(:passwords)");
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':passwords', $password);
             $stmt->execute();
