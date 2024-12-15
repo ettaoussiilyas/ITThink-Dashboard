@@ -9,8 +9,8 @@ if(isset($_POST['submit'])){
     $password_simple = strtolower(trim($_POST['password']));
 
     if(!empty($username) && !empty($email) && !empty($password_simple)){
-       // $password = password_hash($password_simple, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO utilisateurs VALUES (null, :username, :password_simple, :email)");
+        //$password_hashi = password_hash($password_simple, PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare("INSERT INTO utilisateurs VALUES (null, :username, SHA1(:password_simple), :email)");
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':password_simple', $password_simple);
         $stmt->bindParam(':email', $email);
@@ -44,6 +44,7 @@ if(isset($_POST['submit'])){
                     valid = false;
                 }
                 if (!validateEmail(email)) {
+                    errorMessageDiv.style.color='white';
                     errorMessageDiv.innerHTML = 'Veuillez saisir une adresse email valide.<br>';
                     valid = false;
                 }

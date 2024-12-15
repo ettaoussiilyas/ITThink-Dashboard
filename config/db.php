@@ -2,7 +2,7 @@
    $host = 'localhost';
    $db = 'itthink';
    $user = 'root'; 
-   $pass = 'change06'; 
+   $pass = '';
 
    try {
        $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
