@@ -1,5 +1,5 @@
 <?php
-
+    $nom_frelancer_update = $competence_update = $id_user_update = '';
     
     $connect = mysqli_connect('localhost','root','','itthink');
     if($connect){
@@ -15,11 +15,11 @@
     
     mysqli_free_result($result);
 
-    mysqli_close($connect);
+    //mysqli_close($connect);
     //$pdo = null;
     //print_r($result); mysqli object()
 
-    print_r($freelacers);
+    //print_r($freelacers);
 
     // <?php
 
@@ -32,6 +32,42 @@
     //     print_r($freelancers);
 
     //? >
+
+    if(isset($_POST["delete"])){
+        
+        $id_delete = mysqli_real_escape_string($connect, $_POST['id_freelance_dalate']);
+        $result = mysqli_query($connect, "DELETE FROM freelances WHERE id_freelance = '$id_delete'");
+        if($result){
+            echo "<script>alert('deleted sec');</script>";
+            header('location: index.php');
+        }else{
+            echo "<script> alert('deleted failed');</script>";
+        }
+    }
+    if(isset($_POST["update"])){
+
+        $id_user_update = mysqli_real_escape_string($connect , $_POST['id_freelance_update']);
+        //echo gettype($id_update);
+        $result = mysqli_query($connect , "SELECT * FROM freelances WHERE id_freelance = '$id_user_update'");;
+        if($result){
+            $freelancer = mysqli_fetch_assoc($result);
+            //print_r($freelancer);
+            $nom_frelancer_update = $freelancer['nom_freelance'];
+            $competence_update = $freelancer['competences'];
+            $id_user_update = $freelancer['id_utilisateur'];
+            $id_freelancer_update = $freelancer['id_freelance'];
+        }
+    }
+    if(isset($_POST["new_data_freelancer"])){
+
+        $id_user_update = mysqli_real_escape_string($connect , $_POST['id_freelance_dalate']);
+        //echo gettype($id_update);
+        $result = mysqli_query($connect , "UPDATE  freelances set   where id_freelance = '$id_user_update'");;
+        if($result){
+            $freelancer = mysqli_fetch_assoc($result);
+            
+        }
+    }
 
 
 ?>
@@ -52,6 +88,8 @@
                     <th class="py-3 px-6 text-left" >Nom</th>
                     <th class="py-3 px-6 text-left" >Competences</th>
                     <th class="py-3 px-6 text-left" >ID User</th>
+                    <th class="py-3 px-6 text-left" >Update</th>
+                    <th class="py-3 px-6 text-left" >Delete</th>
                     
                 </tr>
             </thead>
@@ -70,10 +108,31 @@
                             </ul>
                         </td>
                         <td class="px-3 px-6"><?=$freelancer['id_utilisateur']?></td>
+                        <td class="px-3 py-6">
+                            <form action="index.php" method="POST">
+                                <input type="hidden" name="id_freelance_update" value="<?=$freelancer['id_freelance']?>">
+                                <input type="submit" name="update" value="update" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+                            </form>
+                        </td>
+                        <td class="px-3 py-6">
+                            <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
+                                <input type="hidden" name="id_freelance_dalate" value="<?=$freelancer['id_freelance']?>">
+                                <input type="submit" name="delete" value="delete" class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded-md">
+                            </form>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
+    </div>
+    <div class="container">
+        <form action="<?= $_SERVER['PHP_SELF'] ?>" class="flex flex-col space-y-4 max-w-2xl mx-auto">
+            <input type="hidden" name="id_freelance_dalate" value="<?=$id_freelancer_update?>">
+            <input type="text" name="nom_freelance" placeholder="Nom Freelance" value="<?= "$nom_frelancer_update" ?>" class="border border-gray-300 p-2 rounded-md">
+            <input type="text" name="competences" placeholder="Competences" value="<?="$competence_update"  ?>" class="border border-gray-300 p-2 rounded-md">
+            <input type="text" name="id_utilisateur" placeholder="ID Utilisateur" value="<?= "$id_user_update" ?>" class="border border-gray-300 p-2 rounded-md">
+            <input type="submit" value="Update Now" name="new_data_freelancer" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+        </form>
     </div>
     <div class="status flex justify-center">
         <?php if(count($freelacers)>=2): ?>
