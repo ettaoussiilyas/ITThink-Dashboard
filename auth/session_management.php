@@ -18,7 +18,7 @@
 
     $result_admin = mysqli_query($connect , $query_admin);
     $result_freelancer = mysqli_query($connect, $query_freelancer);
-    echo $_SESSION['id_utilisateur'];
+    //echo $_SESSION['id_utilisateur']; // just to check 
     
     if($result_admin && mysqli_num_rows($result_admin) > 0){
         header('location: ../pages/dashboard.php');
