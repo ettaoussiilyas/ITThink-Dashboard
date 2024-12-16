@@ -19,14 +19,17 @@
   
         if($valid){
 
-            $stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE nom_utilisateur = :username or email = :username and mot_de_passe = SHA1(:passwords)");
+            $stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE (nom_utilisateur = :username OR email = :username) AND mot_de_passe = SHA1(:passwords)");
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':passwords', $password);
             $stmt->execute();
             $user = $stmt->fetch();
-            if($user){//&& password_verify($password, $user['mot_de_passe'])
-                //$_SESSION['id_utilisateur'] = $user['id_utilisateur'];
-                header('Location: session.php');
+            if($user){
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $_SESSION['id_utilisateur'] = $user['id_utilisateur'];
+                header('Location: session_management.php');
                 exit();
             } else{
                 $errors['username'] = 'Nom d\'utilisateur ou Mot de passe incorrect' ;
@@ -40,6 +43,19 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <title>ITTHINK</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+    </style>
+</head>
 <style>
     form{
         max-width: 400px;
@@ -51,6 +67,7 @@
         gap: 10px;
     }
 </style>
+    <body>
     <?php include("../includes/header.php"); ?>
 
     <div class="w-full h-full flex justify-center items-center">
@@ -67,4 +84,5 @@
     </div>
 
     <?php include("../includes/footer.php"); ?>
+</body>
 </html>
