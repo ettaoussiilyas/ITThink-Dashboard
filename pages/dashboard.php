@@ -57,14 +57,27 @@
                         id_utilisateur = '$id_utilisateur'
                         WHERE id_freelance = '$id_freelance'";
                         
-        $result = mysqli_query($connect, $update_query);
+        
+        try{
+            $result = mysqli_query($connect, $update_query);
+            if($result){
+                echo "<script>alert('Updated successfully');</script>";
+                header('location: dashboard.php');
+            } 
+        }catch(Exception $e){
+            error_log($e->getMessage());
+            echo "<script>alert('ID User Not Found Or Deplcate ID');</script>";
+        }     
+        
+            
+       
     
-        if($result){
-            echo "<script>alert('Updated successfully');</script>";
-            header('location: dashboard.php');
-        } else {
-            echo "<script>alert('Update failed');</script>";
-        }
+        // if($result){
+        //     echo "<script>alert('Updated successfully');</script>";
+        //     header('location: dashboard.php');
+        // } else {
+        //     echo "<script>alert('Update failed');</script>";
+        // }
     }
     
 ?>
