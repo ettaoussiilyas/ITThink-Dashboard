@@ -1,0 +1,14 @@
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 16rem;
+    background-color: #1a1a1a;
+    padding: 1rem;
+}
+.main-content {
+    margin-left: 16rem;
+    padding: 2rem;
+}
