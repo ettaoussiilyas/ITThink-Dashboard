@@ -11,7 +11,7 @@ $error = '';
 $success = '';
 $users = [];
 $editUser = null;
-// $searchResult='';
+
 
 // Handle form submissions (Add, Edit, Delete)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -87,18 +87,18 @@ if (isset($_GET['edit_id'])) {
     $editUser = mysqli_fetch_assoc($result);
 }
 
-// Get all users for display in table
+//users for display in table
 $query = "SELECT id_utilisateur as id, nom_utilisateur as username, email 
           FROM Utilisateurs ORDER BY id_utilisateur DESC";
 $result = mysqli_query($conn, $query);
 
-// Store results in array
+// save results in array
 $users = [];
 while ($row = mysqli_fetch_assoc($result)) {
     $users[] = $row;
 }
 
-// Free the result
+// free the result
 mysqli_free_result($result);
 
 
@@ -110,6 +110,10 @@ if(isset($_POST['search'])){
               FROM Utilisateurs WHERE nom_utilisateur='$username_search'";
     $result_search = mysqli_query($conn, $query_search);
     $searchResult = mysqli_fetch_assoc($result_search);
+    if(mysqli_num_rows($result_search)==0 ){
+        echo '<script>alert("User Not Found");</script>';
+
+    }
 }
 ?>
 
