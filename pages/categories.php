@@ -1,6 +1,10 @@
 <?php
 // Connection to database
 $conn = mysqli_connect('localhost', 'root', '', 'itthink');
+// if (!isset($_SESSION['id_utilisateur'])) {
+//     header('Location: login.php');
+//     exit();
+// }
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }

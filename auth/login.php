@@ -2,6 +2,7 @@
     require('../config/db.php');
     $password = $username = '';
     $errors = array('username'=>'','password'=>'');
+
     if(isset($_POST['submit'])){
         $valid = true;
         if(empty($_POST['username'])){
@@ -25,10 +26,9 @@
             $stmt->execute();
             $user = $stmt->fetch();
             if($user){
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
+                session_start();
                 $_SESSION['id_utilisateur'] = $user['id_utilisateur'];
+                $_SESSION['nom_utilisateur'] = $user['nom_utilisateur'];
                 header('Location: session_management.php');
                 exit();
             } else{
@@ -36,11 +36,9 @@
             }
         }
 
-   
-
     }
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
