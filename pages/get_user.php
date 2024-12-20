@@ -1,6 +1,10 @@
 <?php
 require_once '../auth/session_management.php';
 require_once '../includes/db_connection.php';
+// if (!isset($_SESSION['id_utilisateur'])) {
+//     header('Location: login.php');
+//     exit();
+// }
 
 // Ensure user is logged in and has appropriate permissions
 session_start();

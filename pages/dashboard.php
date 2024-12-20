@@ -2,10 +2,10 @@
     session_start();
     $connect = mysqli_connect("localhost","root","","itthink");
 
-    if (!isset($_SESSION['id_utilisateur'])) {
-        header('Location: login.php');
-        exit();
-    }
+    // if (!isset($_SESSION['id_utilisateur'])) {
+    //     header('Location: login.php');
+    //     exit();
+    // }
     //freelancers
     $query_users = "SELECT COUNT(*) as total_users FROM utilisateurs";
     $count_result_users = mysqli_query($connect, $query_users);

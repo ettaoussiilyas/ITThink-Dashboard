@@ -1,6 +1,10 @@
 <?php
 // connection to data base
 $connection = mysqli_connect('localhost','root','','itthink');
+// if (!isset($_SESSION['id_utilisateur'])) {
+//     header('Location: login.php');
+//     exit();
+// }
 if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -54,10 +58,51 @@ if(isset($_POST["action"])){
             }else{
                 die("Error: " . mysqli_error($connection));
             }
+            break;
+        case "edit":
+            $id_projet = $_POST["id_projet_edit"];
+            $titre_project = $_POST["title_edit"];
+            $descreption = $_POST["description_edit"];
+            $id_categorie = $_POST["categorie_edit"];
+            $id_sous_categorie = $_POST["sub_categorie_edit"];
+            $id_utilisateur = $_POST["user_id_edit"];
+
+            $query_edit = "UPDATE projets SET 
+                          titre_project = '$titre_project',
+                          descreption = '$descreption',
+                          id_categorie = '$id_categorie',
+                          id_sous_categorie = '$id_sous_categorie',
+                          id_utilisateur = '$id_utilisateur'
+                          WHERE id_projet = '$id_projet'";
+            
+            $result_edit = mysqli_query($connection, $query_edit);
+            if($result_edit){
+                header("location: projects.php");
+            }else{
+                die("Error: " . mysqli_error($connection));
+            }
+            break;
     }
 
 }
 
+// Get project data for editing if edit parameter is present
+$editProject = null;
+if(isset($_GET['edit'])){
+    $id_edit = $_GET['edit'];
+    $query_get_project = "SELECT * FROM projets WHERE id_projet='$id_edit'";
+    $result_get_project = mysqli_query($connection, $query_get_project);
+    $editProject = mysqli_fetch_assoc($result_get_project);
+}
+
+//edit project
+if(isset($_GET['edit'])){
+    $id_edit = $_GET['edit'];
+    $query_get_project = "SELECT * FROM projets WHERE id_projet='$id_edit'";
+    $result_get_project = mysqli_query($connection, $query_get_project);
+    $editProject = mysqli_fetch_assoc($result_get_project);
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -114,6 +159,7 @@ if(isset($_POST["action"])){
         </div>
         <hr class="my-8">
         
+        <!-- table of projects -->
         <div class="p-8">
             <h2 class="text-2xl font-bold mb-6">Projects List</h2>
             <div class="overflow-x-auto bg-white rounded-lg shadow">
@@ -141,8 +187,8 @@ if(isset($_POST["action"])){
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $projet['id_sous_categorie'] ?></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $projet['id_utilisateur'] ?></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $projet['date_creation'] ?></td>
-                            <td>
-                                <a href="project.php?edit=<?php echo $projet['id_projet'] ?>" class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 transition-colors mr-2">Edit</a>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <a href="?edit=<?php echo $projet['id_projet'] ?>" class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 transition-colors mr-2">Edit</a>
                                 <form method="POST" class="inline">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="id_delete" value="<?php echo $projet['id_projet']; ?>">
@@ -159,45 +205,64 @@ if(isset($_POST["action"])){
                 </table>
             </div>
         </div>
+        <!-- edit project -->
         <div class="p-8">
-            <h2 class="text-2xl font-bold mb-6">Edit a Project</h2>
+            <h2 class="text-2xl font-bold mb-6">Edit Project</h2>
+            <?php if($editProject): ?>
             <form method="POST" class="flex flex-col gap-4" action="projects.php">
                 <input type="hidden" name="action" value="edit">
+                <input type="hidden" name="id_projet_edit" value="<?php echo $editProject['id_projet']; ?>">
                 <div>
-                    <label for="title" class="block text-sm font-medium text-gray-700">Edit Project Title</label>
-                    <input type="text" name="title_edit" id="title" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500" required>
+                    <label for="title_edit" class="block text-sm font-medium text-gray-700">Project Title</label>
+                    <input type="text" name="title_edit" id="title_edit" value="<?php echo $editProject['titre_project']; ?>" 
+                           class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500" required>
                 </div>
                 <div>
-                    <input type="text" name="edit" hidden value="edit">
-                    <label for="description" class="block text-sm font-medium text-gray-700">Edit Description</label>
-                    <textarea name="description_edit" id="description" cols="30" rows="5" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500" required></textarea>
+                    <label for="description_edit" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea name="description_edit" id="description_edit" cols="30" rows="5" value="<?php echo $editProject['descreption']; ?>"
+                              class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500" required><?php echo $editProject['descreption']; ?></textarea>
                 </div>
                 <div>
-                    <label for="categorie_id" class="block text-sm font-medium text-gray-700">Categorie ID</label>
-                    <select name="categorie_edit" id="categorie_edit">
+                    <label for="categorie_edit" class="block text-sm font-medium text-gray-700">Category</label>
+                    <select name="categorie_edit" id="categorie_edit" 
+                            class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500">
                         <?php foreach($categories as $categorie): ?>
-                            <option value="<?php echo $categorie['id_categorie']; ?>"><?php echo $categorie['nom_categorie']; ?></option>
+                            <option value="<?php echo $categorie['id_categorie']; ?>" 
+                                    <?php echo ($categorie['id_categorie'] == $editProject['id_categorie']) ? 'selected' : ''; ?>>
+                                <?php echo $categorie['nom_categorie']; ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div>
-                    <label for="sub_categorie_edit" class="block text-sm font-medium text-gray-700">Sub Categorie ID</label>
-                    <select name="sub_categorie_edit" id="sub_categorie_edit">
+                    <label for="sub_categorie_edit" class="block text-sm font-medium text-gray-700">Sub Category</label>
+                    <select name="sub_categorie_edit" id="sub_categorie_edit"
+                            class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500">
                         <?php foreach($sub_categories as $sub_categorie): ?>
-                            <option value="<?php echo $sub_categorie['id_sous_categorie']; ?>"><?php echo $sub_categorie['nom_sous_categorie']; ?></option>
+                            <option value="<?php echo $sub_categorie['id_sous_categorie']; ?>"
+                                    <?php echo ($sub_categorie['id_sous_categorie'] == $editProject['id_sous_categorie']) ? 'selected' : ''; ?>>
+                                <?php echo $sub_categorie['nom_sous_categorie']; ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div>
-                    <label for="user_id_edit" class="block text-sm font-medium text-gray-700">User ID</label>
-                    <select name="user_id_edit" id="user_id_edit" value="45">
+                    <label for="user_id_edit" class="block text-sm font-medium text-gray-700">User</label>
+                    <select name="user_id_edit" id="user_id_edit"
+                            class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500">
                         <?php foreach($users as $user):?>
-                            <option value="<?php echo $user['id_utilisateur']; ?>"><?php echo $user['id_utilisateur']; ?></option>
+                            <option value="<?php echo $user['id_utilisateur']; ?>"
+                                    <?php echo ($user['id_utilisateur'] == $editProject['id_utilisateur']) ? 'selected' : ''; ?>>
+                                <?php echo $user['nom_utilisateur'] ?? $user['id_utilisateur']; ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">Add Project</button>
+                <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition-colors">Update Project</button>
             </form>
+            <?php else: ?>
+            <p class="text-gray-500">Select a project to edit</p>
+            <?php endif; ?>
         </div>
 
     </div>
