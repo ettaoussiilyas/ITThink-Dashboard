@@ -1,6 +1,10 @@
 <?php
     session_start();
     $connect = mysqli_connect("localhost","root","","itthink");
+    // $connct = new mysqli("localhost","root","","itthink");
+
+    // $connect = new PDO("mysql: host=localhost ; dbname = itthink ; charset = utf8","root","");
+
 
     // if (!isset($_SESSION['id_utilisateur'])) {
     //     header('Location: login.php');

@@ -150,7 +150,7 @@ if(isset($_GET['edit'])){
                     <label for="user_id" class="block text-sm font-medium text-gray-700">User ID</label>
                     <select name="user_id_add" id="user_id_add">
                         <?php foreach($users as $user):?>
-                            <option value="<?php echo $user['id_utilisateur']; ?>"><?php echo $user['id_utilisateur']; ?></option>
+                            <option value="<?php echo $user['id_utilisateur']; ?>"><?php echo $user['nom_utilisateur']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>

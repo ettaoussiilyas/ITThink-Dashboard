@@ -172,7 +172,7 @@ if(isset($_GET['edit'])){
                         <?php foreach ($offers as $offer): ?>
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?php echo $offer['id_offre'] ?></td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $offer['montant'] ?> DH</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $offer['monatant'] ?> DH</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $offer['delai'] ?> days</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $offer['nom_utilisateur'] ?></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><?php echo $offer['titre_project'] ?></td>
