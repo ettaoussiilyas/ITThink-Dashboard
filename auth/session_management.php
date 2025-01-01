@@ -23,7 +23,7 @@ $query_freelancer = "SELECT * FROM freelances WHERE id_utilisateur = $id_of_user
 $result_freelancer = mysqli_query($connect, $query_freelancer);
 
 if($user['role'] === 'admin'){
-    header('location: ../pages/dashboard.php');
+    header('location: ../admin/freelancers.php');
     exit();
 } elseif(mysqli_num_rows($result_freelancer) > 0){
     header('location: ../freelancer/freelancer.php');
