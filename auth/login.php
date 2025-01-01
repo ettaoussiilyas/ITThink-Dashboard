@@ -66,7 +66,8 @@
     }
 </style>
     <body>
-    <?php include("../includes/header.php"); ?>
+        
+    <?php include("../includes/headerAuth.php"); ?>
 
     <div class="w-full h-full flex justify-center items-center">
         <form action="login.php" method="POST" class="bg-black p-4 rounded-lg">

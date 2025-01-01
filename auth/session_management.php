@@ -14,25 +14,22 @@ if(!$connect){
 $id_of_user = $_SESSION['id_utilisateur'];
 $name_of_user = $_SESSION['nom_utilisateur'];
 
-$query_admin = "SELECT * FROM admin WHERE id_utilisateur = $id_of_user";
-$query_freelancer = "SELECT * FROM freelances WHERE id_utilisateur = $id_of_user";
+$query = "SELECT role FROM utilisateurs WHERE id_utilisateur = $id_of_user";
+$result = mysqli_query($connect, $query);
+$user = mysqli_fetch_assoc($result);
 
-$result_admin = mysqli_query($connect, $query_admin);
+// Check freelancer status
+$query_freelancer = "SELECT * FROM freelances WHERE id_utilisateur = $id_of_user";
 $result_freelancer = mysqli_query($connect, $query_freelancer);
 
-// Check for admin first
-if($result_admin && mysqli_num_rows($result_admin) > 0){
-    header('location: ../pages/dashboard.php');
+if($user['role'] === 'admin'){
+    header('location: ../admin/freelancers.php');
     exit();
-}
-
-// Then check for freelancer
-if($result_freelancer && mysqli_num_rows($result_freelancer) > 0){
+} elseif(mysqli_num_rows($result_freelancer) > 0){
     header('location: ../freelancer/freelancer.php');
     exit();
+} else {
+    header('location: ../user/user.php');
+    exit();
 }
-
-// If neither admin nor freelancer, then it's a regular user
-header('location: ../user/user.php');
-exit();
 ?>

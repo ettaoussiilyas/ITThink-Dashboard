@@ -45,7 +45,7 @@ try {
     </style>
 </head>
 <body class="bg-gray-100">
-    <?php include('../includes/headerUserAuth.php')?>
+    <?php include('../includes/headerFreelancer.php') ?>
     
     <div class="container mx-auto px-4 py-8">
         <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
@@ -103,15 +103,14 @@ try {
             <?php endif; ?>
 
             <!-- Action Button -->
-            <?php if(isset($_SESSION['user_id'])): ?>
-                <div class="border-t pt-6">
-                    <!-- <a href="make_offer.php?project_id=< ?php echo $project['id_projet']; ?>"  -->
-                    <a href="#" 
-                       class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-                        Make an Offer
-                    </a>
-                </div>
-            <?php endif; ?>
+            
+            <div class="border-t pt-6">
+                <a href="./freelancer.php" 
+                   class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                    Make an Offer
+                </a>
+            </div>
+            
         </div>
     </div>
 

@@ -46,9 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $user_id = $_POST['user_id'];
                 $username = $_POST['username'];
                 $email = $_POST['email'];
+                $role = $_POST['role'];
                 
                 $query = "UPDATE Utilisateurs 
-                        SET nom_utilisateur='$username', email='$email' 
+                        SET nom_utilisateur='$username', email='$email',role='$role' 
                          WHERE id_utilisateur='$user_id'";
                 
                 // Run the query
@@ -92,7 +93,7 @@ if (isset($_GET['edit_id'])) {
 }
 
 //users for display in table
-$query = "SELECT id_utilisateur as id, nom_utilisateur as username, email 
+$query = "SELECT id_utilisateur as id, nom_utilisateur as username, email,role 
           FROM Utilisateurs ORDER BY id_utilisateur DESC";
 $result = mysqli_query($conn, $query);
 
@@ -110,7 +111,7 @@ mysqli_free_result($result);
 if(isset($_POST['search'])){
     
     $username_search = $_POST['usernamesearch'];
-    $query_search = "SELECT id_utilisateur as id, nom_utilisateur as username, email 
+    $query_search = "SELECT id_utilisateur as id, nom_utilisateur as username, email ,'role'
               FROM Utilisateurs WHERE nom_utilisateur='$username_search'";
     $result_search = mysqli_query($conn, $query_search);
     $searchResult = mysqli_fetch_assoc($result_search);
@@ -158,6 +159,12 @@ if(isset($_POST['search'])){
                     <div class="flex-1">
                         <input type="email" name="email" value="<?php echo htmlspecialchars($editUser['email']); ?>" 
                                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required>
+                    </div>
+                    <div class="flex-1">
+                        <select name="role" id="role" name="role" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                            <option value="admin">Admin</option>
+                            <option value="utilisateur">Utilisateur</option>
+                        </select>
                     </div>
                     <div>
                         <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">Update User</button>
@@ -234,6 +241,7 @@ if(isset($_POST['search'])){
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
@@ -242,6 +250,7 @@ if(isset($_POST['search'])){
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($user['username']); ?></td>
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($user['email']); ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($user['role']); ?></td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <a href="?edit_id=<?php echo $user['id']; ?>" 
                                    class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 transition-colors mr-2">

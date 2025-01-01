@@ -44,7 +44,7 @@
         if($result){
             echo "<script>alert('deleted sec');</script>";
             //echo "dffffffffffff";
-            header('location: dashboard.php');
+            header('location: freelancers.php');
         }else{
             echo "<script> alert('deleted failed');</script>";
         }
@@ -66,7 +66,7 @@
             $result = mysqli_query($connect, $update_query);
             if($result){
                 echo "<script>alert('Updated successfully');</script>";
-                header('location: dashboard.php');
+                header('location: freelancers.php');
             } 
         }catch(Exception $e){
             error_log($e->getMessage());
@@ -78,7 +78,7 @@
     
         // if($result){
         //     echo "<script>alert('Updated successfully');</script>";
-        //     header('location: dashboard.php');
+        //     header('location: freelancers.php');
         // } else {
         //     echo "<script>alert('Update failed');</script>";
         // }
@@ -91,8 +91,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <link rel="stylesheet" href="../public/css/dashboard.css">
-    <title>Dashboard</title>
+    <link rel="stylesheet" href="../public/css/freelancers.css">
+    <title>freelancers</title>
 </head>
 <body>
 
@@ -170,7 +170,7 @@
             </div>
         </div>
 
-        <script src="../public/js/dashboard.js"></script>
+        <script src="../public/js/freelancers.js"></script>
     </div>
 </body>
 </html>

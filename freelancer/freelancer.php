@@ -11,7 +11,7 @@
     // Database connection
     $connection = mysqli_connect('localhost','root','','itthink');
     if (!$connection) {
-        die("Connection failed: " . mysqli_error($connection));
+        die("Connection failed: " . mysqli_connect_error());
     }
 
     // Get freelancer ID
@@ -69,9 +69,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <title>Freelancer Journey - <?php echo htmlspecialchars($user_name); ?></title>
+    <style>
+        body{
+            min-height: 100vh !important;
+            display: flex;
+            flex-direction: column;
+        }
+        .container{
+            flex: 1;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
-    <?php include('../includes/headerupuser.php') ?>
+    <?php include('../includes/headerFreelancer.php') ?>
 
     <div class="container mx-auto px-4 py-8">
         <!-- Messages -->
@@ -120,6 +130,10 @@
                                     Soumettre une offre
                                 </button>
                             <?php endif; ?>
+                            <a href="./project.php?id=<?php echo $project['id_projet']; ?>" 
+                               class="text-yellow-500 hover:text-yellow-600 font-medium">
+                                View Details →
+                            </a>
                         </div>
                     </div>
                 <?php endforeach; ?>

@@ -9,7 +9,7 @@ if(isset($_POST['submit'])){
 
     if(!empty($username) && !empty($email) && !empty($password_simple)){
         //$password_hashi = password_hash($password_simple, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO utilisateurs VALUES (null, :username, SHA1(:password_simple), :email)");
+        $stmt = $pdo->prepare("INSERT INTO utilisateurs VALUES (null, :username, SHA1(:password_simple), :email,'utilisateur')");
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':password_simple', $password_simple);
         $stmt->bindParam(':email', $email);
@@ -86,7 +86,7 @@ if(isset($_POST['submit'])){
     }
 </style>
     <body>
-        <?php include("../includes/header.php"); ?>
+        <?php include("../includes/headerAuth.php"); ?>
 
         <div class="w-full h-full flex justify-center items-center">
             <form action="register.php" method="POST" class="bg-black p-4 rounded-lg">
