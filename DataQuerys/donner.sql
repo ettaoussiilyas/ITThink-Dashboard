@@ -139,3 +139,6 @@ SELECT * FROM temoignages;*/
 SELECT * FROM projets INNER JOIN categories ON prjets.id_categorie = categories.id_categorie ;
 SELECT * FROM categories;
 SELECT * FROM projets;*/
+
+/*ALTER TABLE utilisateurs ADD role VARCHAR(20) DEFAULT 'utilisateur';
+UPDATE utilisateurs SET role = 'admin' WHERE id_utilisateur = 1;*/

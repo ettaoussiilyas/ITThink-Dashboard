@@ -29,9 +29,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <title>User Dashboard - <?php echo htmlspecialchars($user_name); ?></title>
+    <style>
+      body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
-    <?php include('../includes/headerupuser.php')?>
+    <?php include('../includes/headerUserAuth.php')?>
     
     <div class="container mx-auto px-4 py-8">
         <!-- Welcome Section -->
